@@ -18,7 +18,11 @@ namespace WebApplication3
                 url: "sinema/tur/{tur}",
                 defaults: new { controller = "Sinema", action = "Tur" }
             );
-
+            routes.MapRoute(
+               name: "Sinema2",
+               url: "sinema/tarih/{tarih}",
+               defaults: new { controller = "Sinema", action = "Tarih" }
+           );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -7,8 +7,10 @@ using WebApplication3.Models;
 
 namespace WebApplication3.Controllers
 {
+   
     public class SinemaController : Controller
     {
+        public DateTime gun { get; set; }
         // GET: Sinema
         public ActionResult Index()
         {
@@ -51,6 +53,42 @@ namespace WebApplication3.Controllers
             }
 
             return View("~/views/_shared/guncel.cshtml", sinemaListesi);
+        }
+
+        public ActionResult Tarih(string tarih)
+        {
+            
+            
+            var sinemaListesi = new List<Etkinlik>();
+            foreach (var sinema in EtkinlikRepository.ListeyiDoldur())
+            {
+                switch (tarih)
+                {
+                    case "bugün":
+                        gun = DateTime.Now;
+                        if (sinema.BitisTarihi <= gun && sinema.EtkinlikTuru == EtkinlikTuru.Sinema)
+                        {
+                            sinemaListesi.Add(sinema);
+                        }
+                        break;
+                    case "buhafta":
+                        gun = DateTime.Now.AddDays(7);
+                        if (sinema.BitisTarihi <= gun && sinema.EtkinlikTuru == EtkinlikTuru.Sinema)
+                        {
+                            sinemaListesi.Add(sinema);
+                        }
+                        break;
+                    case "buay":
+                        gun = DateTime.Now.AddMonths(1);
+                        if (sinema.BitisTarihi <= gun && sinema.EtkinlikTuru == EtkinlikTuru.Sinema)
+                        {
+                            sinemaListesi.Add(sinema);
+                        }
+                        break;
+                }
+                
+            }
+            return View("~/views/_shared/guncel.cshtml",sinemaListesi);
         }
     }
 }
